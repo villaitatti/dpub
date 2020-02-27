@@ -1,0 +1,189 @@
+<link rel="stylesheet" href="../../assets/styles/template.css">
+
+<ol class="page-breadcrumb">
+  <li class="active">Letters</li>
+</ol>
+
+<div class="page">
+  <div class="page__body">
+
+    <semantic-search
+    
+    categories='{
+      "<http://www.w3.org/2001/XMLSchema#date>": [{
+         "kind": "date-range",
+         "datatype": "http://www.w3.org/2001/XMLSchema#date",
+         "queryPattern": "
+           {
+            $subject ?__relation__ ?date .
+            FILTER(?date <= ?__dateEndValue__) .
+            FILTER(?date >= ?__dateBeginValue__) .
+           }"
+        }]
+   }'    
+
+      relations = '{
+          "<mpp:letter_sender>": [
+            {
+              "kind": "resource",
+              "queryPattern": "
+                {
+                  ?activity crm:P16_used_specific_object ?subject.
+                  ?activity crm:P01_has_domain ?carry_by_sender.
+                  ?carry_by_sender crm:P14.1_in_the_role_of ?sender_role.
+                  ?sender_role rdfs:label \"Sender\".
+                  ?carry_by_sender crm:P02_has_range ?__value__.
+                }"
+            }
+          ],
+          "<mpp:letter_receiver>": [
+            {
+              "kind": "resource",
+              "queryPattern": "
+                {
+                  ?activity crm:P16_used_specific_object ?subject.
+                  ?activity crm:P01_has_domain ?receiver_carry.
+                  ?receiver_carry crm:P14.1_in_the_role_of ?receiver_role.
+                  ?receiver_role rdfs:label \"Receiver\".
+                  ?receiver_carry crm:P02_has_range ?__value__.
+                }"
+            }
+          ],
+          "<mpp:date>":[
+            {
+              "kind": "date-range",
+              "queryPattern": "
+              {
+                ?activity crm:P16_used_specific_object ?subject.
+                ?activity crm:P4_has_time_span ?activity_timespan.
+                ?activity_timespan crm:P81a_begin_of_the_end ?date.
+                ?date rdfs:label ?literal .
+                FILTER(?literal >= ?__dateBeginValue__) .
+                FILTER(?literal <= ?__dateEndValue__) .
+              }"
+            }
+          ],
+          "<mpp:place>":[
+            {
+              "kind": "resource",
+              "queryPattern": "
+              {
+                ?activity crm:P16_used_specific_object ?subject.
+                ?activity crm:P7_took_place_at ?__value__.
+              }"
+            }
+          ]
+        }'
+      
+      search-profile='{ 
+        "categories": [
+          {
+            "iri": "<https://www.researchspace.org/resource/TextDocuments>",
+            "label": "Letter",
+            "thumbnail": "../../../assets/images/user.svg"
+          },
+          {
+            "iri":"<crm:E21_Person>",
+            "label":"Person",
+            "thumbnail": "../../../assets/images/user.svg"
+          },
+          {
+            "iri": "<http://www.w3.org/2001/XMLSchema#date>",
+            "label": "Date",
+            "thumbnail": "../../../assets/images/calendar.svg"
+          },
+          {
+            "iri": "<crm:E53_Place>",
+            "label": "Place",
+            "thumbnail": "../../../assets/images/map-marker.svg"
+          }
+        ],
+        "relations": [
+          {
+            "iri": "<mpp:letter_sender>",
+            "label": "Sender",
+            "hasDomain": "<https://www.researchspace.org/resource/TextDocuments>",
+            "hasRange": "<crm:E21_Person>"
+          },
+          {
+            "iri": "<mpp:letter_receiver>",
+            "label": "Receiver",
+            "hasDomain": "<https://www.researchspace.org/resource/TextDocuments>",
+            "hasRange": "<crm:E21_Person>"
+          },
+          {
+            "iri": "<mpp:date>",
+            "label": "Year",
+            "hasDomain": "<https://www.researchspace.org/resource/TextDocuments>",
+            "hasRange": "<http://www.w3.org/2001/XMLSchema#date>"
+          },
+          {
+            "iri": "<mpp:place>",
+            "label": "Place",
+            "hasDomain": "<https://www.researchspace.org/resource/TextDocuments>",
+            "hasRange": "<crm:E53_Place>" 
+          }
+        ]
+      }'
+    >
+      <semantic-search-query-constant 
+        domain='<https://www.researchspace.org/resource/TextDocuments>'
+        query="
+          SELECT ?subject WHERE { 
+            ?subject a dpub-annotation:TextDocument . 
+          }">
+      </semantic-search-query-constant>
+      
+      <div data-flex-layout="row stretch-stretch">
+        <div data-flex-self="size-1of3" style="flex: 0 0 20px;">
+          <semantic-search-facet open-by-default="true"></semantic-search-facet>
+        </div>
+        
+        <semantic-search-result-holder>
+          <div data-flex-self="md-full">
+
+            <semantic-search-result>
+              <mp-sparql-result-counts id='query-count'
+                                       query="SELECT DISTINCT * {}"
+                                       template='{{#if hasLimit}} <bs-alert bs-style="warning">
+                                                 Showing {{numberOfResults}} of {{totalNumberOfResults}} matches. <strong>Please, refine your search.</strong> </bs-alert>
+                                                 {{else}}<span> found {{numberOfResults}} matches </span>{{/if}}'>
+              </mp-sparql-result-counts>
+            </semantic-search-result>
+  
+            <bs-tabs unmount-on-exit=true id='search-results' animation=false>
+              <bs-tab event-key="1" title="Letters">
+                <semantic-search-result>
+                  <semantic-table 
+                    id='grid-result'
+                    query='
+                      SELECT DISTINCT ?subject ?title WHERE {
+
+                        ?subject crm:P48_has_preferred_identifier ?entity_title.
+                        ?entity_title rdfs:label ?title.
+                      }'
+                    tuple-template='{{>tupleTemplate}}'
+                    options:='{"showFilter":false, "resultsPerPage":16}'>
+
+                    <template id='tupleTemplate'>
+                        
+                        <div class="rs-grid-element text-center panel panel-default">
+                          <div class="panel-body">
+                            <semantic-link class="grid-resource-link" iri="{{subject.value}}"></semantic-link>
+                          </div>
+                        </div>
+                    </template>
+
+                  </semantic-table>
+                </semantic-search-result>
+              </bs-tab>
+            </bs-tabs>
+             
+          </div>
+        </semantic-search-result-holder>
+
+      </div>
+    </semantic-search>
+
+  </div>
+</div>

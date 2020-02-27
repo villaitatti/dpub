@@ -1,8 +1,8 @@
 <link href="/assets/styles/annotation.css" rel="stylesheet" />
 <ol class="page-breadcrumb">
   <li>
-    <semantic-link iri="http://www.researchspace.org/resource/TextDocuments"
-      >Text Documents</semantic-link
+    <semantic-link iri="http://www.researchspace.org/resource/Letters"
+      >Letters</semantic-link
     >
   </li>
   <li class="active">Document</li>
@@ -15,7 +15,7 @@
       <mp-field-visualization
         subject="[[this]]"
         fields='[[fieldDefinitionsFromQuery "SELECT ?field WHERE { ?field <http://www.metaphacts.com/ontology/fields#domain> crm:E33_Linguistic_Object}"]]'
-        template="{{> metadata}}"
+        template="{{> rsp:FieldValueVisualization}}"
       >
         <template id="metadata">
           <div>
@@ -71,7 +71,7 @@
       <semantic-context repository="default">
         <rs-text-annotation-workspace
           document-iri="[[this]]"
-          storage="dpub"
+          storage="runtime"
           annotation-subject-template="http://dpub.cordh.net/annotation/{{UUID}}"
           fallback-template="{{> fallback-template}}"
           annotation-tooltip="{{> annotation-tooltip}}"
@@ -129,6 +129,7 @@
           [[> dpub-annotation:Translation ]] [[> dpub-annotation:Concept ]] [[> dpub-annotation:Person ]] [[> dpub-annotation:Place]]
         </rs-text-annotation-workspace>
       </semantic-context>
+    
     </div>
   </div>
 </div>
