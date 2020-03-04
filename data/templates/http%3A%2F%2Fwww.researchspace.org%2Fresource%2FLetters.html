@@ -119,7 +119,7 @@
           },
           {
             "iri": "<mpp:place>",
-            "label": "Place",
+            "label": "Sending Place",
             "hasDomain": "<https://www.researchspace.org/resource/TextDocuments>",
             "hasRange": "<crm:E53_Place>" 
           }
@@ -142,6 +142,7 @@
         <semantic-search-result-holder>
           <div data-flex-self="md-full">
 
+            <!--
             <semantic-search-result>
               <mp-sparql-result-counts id='query-count'
                                        query="SELECT DISTINCT * {}"
@@ -149,32 +150,91 @@
                                                  Showing {{numberOfResults}} of {{totalNumberOfResults}} matches. <strong>Please, refine your search.</strong> </bs-alert>
                                                  {{else}}<span> found {{numberOfResults}} matches </span>{{/if}}'>
               </mp-sparql-result-counts>
-            </semantic-search-result>
+            </semantic-search-result>-->
   
             <bs-tabs unmount-on-exit=true id='search-results' animation=false>
-              <bs-tab event-key="1" title="Letters">
+              
+              <bs-tab event-key="1" title="Grid">
                 <semantic-search-result>
                   <semantic-table 
                     id='grid-result'
+                    number-of-displayed-rows='9'
                     query='
-                      SELECT DISTINCT ?subject ?title WHERE {
+                      SELECT DISTINCT ?subject ?sender ?receiver ?date ?place_label ?title WHERE {
 
-                        ?subject crm:P48_has_preferred_identifier ?entity_title.
-                        ?entity_title rdfs:label ?title.
+                        ?activity crm:P16_used_specific_object ?subject.
+                        ?subject crm:P48_has_preferred_identifier ?identifier.
+                        ?identifier rdfs:label ?title.
+
+                        ?sending crm:P9i_forms_part_of ?activity.
+                        ?sending crm:P7_took_place_at ?place.
+                        ?place rdfs:label ?place_label.
+
+                        ?activity crm:P4_has_time_span ?activity_timespan.
+                        ?activity_timespan rdfs:label ?date.
+                        
+                        ?activity crm:P01_has_domain ?sender_carry.
+                        ?sender_carry crm:P02_has_range ?sender_person.
+                        ?sender_person rdfs:label ?sender.
+                        ?sender_carry crm:P14.1_in_the_role_of ?sender_role.
+                        ?sender_role rdfs:label "Sender".
+                        
+                        ?activity crm:P01_has_domain ?receiver_carry.
+                        ?receiver_carry crm:P02_has_range ?receiver_person.
+                        ?receiver_person rdfs:label ?receiver.
+                        ?receiver_carry crm:P14.1_in_the_role_of ?receiver_role.
+                        ?receiver_role rdfs:label "Receiver"
                       }'
-                    tuple-template='{{>tupleTemplate}}'
-                    options:='{"showFilter":false, "resultsPerPage":16}'>
+                    tuple-template='{{>tupleTemplate}}'>
 
                     <template id='tupleTemplate'>
                         
-                        <div class="rs-grid-element text-center panel panel-default">
+                        <div class="rs-grid-element panel panel-default">
+                          
                           <div class="panel-body">
-                            <semantic-link class="grid-resource-link" iri="{{subject.value}}"></semantic-link>
+
+                            <div data-flex-layout="row stretch-stretch">
+                              <div class="grid-demo" data-flex-layout="column center-center">
+                                <mp-resource-thumbnail iri='{{subject.value}}' no-image-uri='../../assets/images/yashiro.jpg' class="thumbnail"/>
+                              </div>
+                              <div data-flex-layout="column top-stretch">
+
+                                <div class="grid-demo">
+                                  <semantic-link iri="{{subject.value}}"><h5>{{title.value}}</h5></semantic-link>
+                                </div>
+                                
+                                <div class="grid-demo">
+                                  <b>Sent: </b>{{date.value}}
+                                </div>
+
+                                <div class="grid-demo">
+                                  <b>From: </b>{{sender.value}}
+                                </div>
+
+                                <div class="grid-demo">
+                                  <b>To: </b>{{receiver.value}}
+                                </div>
+
+                                <div class="grid-demo">
+                                  <b>In: </b>{{place_label.value}}
+                                </div> 
+                              </div>
+                              
+                            </div>
+          
                           </div>
+
                         </div>
+
                     </template>
 
                   </semantic-table>
+                </semantic-search-result>
+              </bs-tab>
+
+              <bs-tab event-key="2" title="Map">
+                <semantic-search-result>
+
                 </semantic-search-result>
               </bs-tab>
             </bs-tabs>

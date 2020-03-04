@@ -1,0 +1,9 @@
+.rs-grid-element{
+    width: 300px!important;
+    margin-top: 10px;
+}
+
+img.thumbnail{
+    width: 100px!important;
+    margin-bottom: 0px !important;
+}
