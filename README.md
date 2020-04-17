@@ -1,6 +1,7 @@
-# Digital Publishing app example
+# Yashiro and Berenson: Arti History between Italy and Japan
+This project is being migrated from Drupal to ResearchSpace
 
-## How to develop
+## How to use
 Checkout this repository and attach it as a storage using this command:
 ```
 ./build.sh -Dbuildjson=./researchspace/researchspace-root-build.json \
@@ -8,4 +9,4 @@ Checkout this repository and attach it as a storage using this command:
 -Dconfig.storage.yashiro.mutable=true \
 -Dconfig.storage.yashiro.root=REPOSITORY_LOCATION
 ```
-# dpub
+
