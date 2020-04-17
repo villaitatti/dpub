@@ -1,4 +1,4 @@
-# Yashiro and Berenson: Arti History between Italy and Japan
+# Yashiro and Berenson: Art History between Japan and Italy
 This project is being migrated from Drupal to ResearchSpace
 
 ## How to use
