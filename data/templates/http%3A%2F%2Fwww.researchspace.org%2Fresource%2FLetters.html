@@ -162,16 +162,17 @@
                     query='
                       SELECT DISTINCT ?subject ?sender ?receiver ?date ?place_label ?title WHERE {
 
-                        ?activity crm:P16_used_specific_object ?subject.
-                        ?subject crm:P48_has_preferred_identifier ?identifier.
+                        ?subject crm:P1_is_identified_by ?letter.
+                        ?activity crm:P16_used_specific_object ?letter.
+                        ?letter crm:P48_has_preferred_identifier ?identifier.
                         ?identifier rdfs:label ?title.
 
                         ?sending crm:P9i_forms_part_of ?activity.
                         ?sending crm:P7_took_place_at ?place.
                         ?place rdfs:label ?place_label.
 
-                        ?activity crm:P4_has_time_span ?activity_timespan.
-                        ?activity_timespan rdfs:label ?date.
+                        ?sending crm:P4_has_time_span ?activity_timespan.
+      					        ?activity_timespan crm:P81a_end_of_the_begin ?date.
                         
                         ?activity crm:P01_has_domain ?sender_carry.
                         ?sender_carry crm:P02_has_range ?sender_person.
