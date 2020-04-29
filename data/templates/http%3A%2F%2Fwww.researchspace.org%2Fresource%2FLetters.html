@@ -28,7 +28,8 @@
               "kind": "resource",
               "queryPattern": "
                 {
-                  ?activity crm:P16_used_specific_object ?subject.
+                  ?subject crm:P1_is_identified_by ?letter.
+                  ?activity crm:P16_used_specific_object ?letter.
                   ?activity crm:P01_has_domain ?carry_by_sender.
                   ?carry_by_sender crm:P14.1_in_the_role_of ?sender_role.
                   ?sender_role rdfs:label \"Sender\".
@@ -41,7 +42,8 @@
               "kind": "resource",
               "queryPattern": "
                 {
-                  ?activity crm:P16_used_specific_object ?subject.
+                  ?subject crm:P1_is_identified_by ?letter.
+                  ?activity crm:P16_used_specific_object ?letter.
                   ?activity crm:P01_has_domain ?receiver_carry.
                   ?receiver_carry crm:P14.1_in_the_role_of ?receiver_role.
                   ?receiver_role rdfs:label \"Receiver\".
@@ -54,10 +56,14 @@
               "kind": "date-range",
               "queryPattern": "
               {
-                ?activity crm:P16_used_specific_object ?subject.
-                ?activity crm:P4_has_time_span ?activity_timespan.
-                ?activity_timespan crm:P81a_begin_of_the_end ?date.
-                ?date rdfs:label ?literal .
+                ?subject crm:P1_is_identified_by ?letter.
+                ?activity crm:P16_used_specific_object ?letter.
+
+                ?production crm:P9i_forms_part_of ?activity.
+                ?production a crm:E12_Production.
+
+                ?production crm:P4_has_time_span ?prod_ts.
+  				      ?prod_ts crm:P81a_end_of_the_begin ?literal
                 FILTER(?literal >= ?__dateBeginValue__) .
                 FILTER(?literal <= ?__dateEndValue__) .
               }"
@@ -68,8 +74,9 @@
               "kind": "resource",
               "queryPattern": "
               {
-                ?activity crm:P16_used_specific_object ?subject.
-                ?activity crm:P7_took_place_at ?__value__.
+                ?subject crm:P1_is_identified_by ?letter.
+                ?prod crm:P108_has_produced ?letter.
+  				      ?prod crm:P7_took_place_at ?__value__
               }"
             }
           ]
