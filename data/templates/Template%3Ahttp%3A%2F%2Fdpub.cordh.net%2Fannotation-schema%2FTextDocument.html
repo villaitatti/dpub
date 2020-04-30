@@ -11,17 +11,21 @@
 <div class="page">
   <div class="page__body dpub-editor-page">
     <div class="dpub-editor-container">
-      
-      <mp-field-visualization
-        subject="[[this]]"
-        fields='[[fieldDefinitionsFromQuery "SELECT ?field WHERE { ?field <http://www.metaphacts.com/ontology/fields#domain> crm:E33_Linguistic_Object}"]]'
-        template="{{> rsp:FieldValueVisualization}}"
-      >
+
+      <bs-row>
+        <bs-col md="3"></bs-col>
+        <bs-col md="6">
+          <mp-field-visualization
+          subject="[[this]]"
+          fields='[[fieldDefinitionsFromQuery "SELECT ?field WHERE { ?field <http://www.metaphacts.com/ontology/fields#domain> <http://dpub.cordh.net/annotation-schema/TextDocument>}"]]'
+          template="{{> metadata}}"
+        >
+
         <template id="metadata">
           <div>
+            <h3>Metadata</h3>
             <div data-flex-layout="row">
               <div>
-                <h2>Metadata</h2>
               </div>
             </div>
             {{#each fields}}
@@ -31,27 +35,27 @@
         </template>
         <template id="field">
           <!-- Places -->
-          {{#ifCond this.label.0._value "===" "Letter_places"}}
-          {{#each this.values}}
-          {{> row lbl=label val=value._value}}
-          {{/each}}
+          {{#ifCond this.label.0._value "===" "letter_places"}}
+            {{#each this.values}}
+              {{> row lbl="Sending place" val=value._value}}
+            {{/each}}
           {{/ifCond}}
 
           <!-- Date -->
-          {{#ifCond this.label.0._value "===" "Letter_date"}}
-          {{> row lbl="Date" val=this.values.0.value._value}}
+          {{#ifCond this.label.0._value "===" "letter_date"}}
+            {{> row lbl="Date" val=this.values.0.value._value date=this.values.0.label}}
           {{/ifCond}}
 
           <!-- People -->
-          {{#ifCond this.label.0._value "===" "Letter_people"}}
-          {{#each this.values}}
-          {{> row lbl=label val=value._value}}
-          {{/each}}
+          {{#ifCond this.label.0._value "===" "letter_people"}}
+            {{#each this.values}}
+              {{> row lbl=label val=value._value}}
+            {{/each}}
           {{/ifCond}}
 
           <!-- Title -->
-          {{#ifCond this.label.0._value "===" "Letter_title"}}
-          {{> row lbl="Title" val=this.values.0.value._value}}
+          {{#ifCond this.label.0._value "===" "letter_title"}}
+            {{> row lbl="Title" val=this.values.0.value._value}}
           {{/ifCond}}
         </template>
 
@@ -61,13 +65,23 @@
               <b>{{ lbl }}:</b>
             </bs-col>
             <bs-col sm="2" md="9">
-              {{ val }}
+              <semantic-link iri="{{ val }}">{{date}}</semantic-link>
             </bs-col>
           </div>
-        </template>
-      </mp-field-visualization>
+        </template> 
 
-      <!-- Document body + annotation sidebar -->
+        </mp-field-visualization>
+        </bs-col>
+        <bs-col md="3"></bs-col>
+      </bs-row>
+
+      <bs-row>
+        <bs-col md="3" style="padding-top: 55px;">
+          <img style="width: 100%" src="../../assets/images/yashiro.jpg" alt="">
+        </bs-col>
+        <bs-col md="9">
+          <h3>Letter</h3>
+                <!-- Document body + annotation sidebar -->
       <semantic-context repository="default">
         <rs-text-annotation-workspace
           document-iri="[[this]]"
@@ -77,6 +91,7 @@
           annotation-tooltip="{{> annotation-tooltip}}"
         >
           <template id="fallback-template">
+ 
             {{#> dpub:AnnotationTemplate}}
             Missing type for annotation
             <semantic-link iri="{{ iri.value }}"></semantic-link>
@@ -129,6 +144,9 @@
           [[> dpub-annotation:Translation ]] [[> dpub-annotation:Concept ]] [[> dpub-annotation:Person ]] [[> dpub-annotation:Place]]
         </rs-text-annotation-workspace>
       </semantic-context>
+        </bs-col>
+      </bs-row>
+
     
     </div>
   </div>
