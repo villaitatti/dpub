@@ -4,17 +4,18 @@
   <template id='annotation'>
 
     <semantic-query query='
-              SELECT ?iri ?label WHERE {
+              SELECT ?value ?label WHERE {
                 BIND({{iri}} as ?iri)
                 ?iri oa:hasBody ?body.
-                ?body crm:P1_is_identified_by ?appellation.
-              ?appellation rdfs:label ?label
+                ?body crm:P1_is_identified_by ?value.
+                ?value crm:P1_is_identified_by ?id.
+                ?id rdfs:label ?label 
               }' template='{{> show}}'>
       <template id='show'>
         {{#> dpub:AnnotationTemplate}}
         <div class="dpub-annotation-content concept">
             <span>Person:</span>
-            {{bindings.0.label.value}}
+            <semantic-link iri="{{bindings.0.value.value}}">{{bindings.0.label.value}}</semantic-link>
         </div>
 
         {{/ dpub:AnnotationTemplate}}
@@ -42,7 +43,7 @@
                 "selectPattern": "SELECT $value WHERE { $subject rdfs:label $value }",
                 "insertPattern": "INSERT { $subject crm:P1_is_identified_by $value } WHERE {}",
                 "deletePattern": "DELETE { $subject rdfs:label $value } WHERE {}",
-                "autosuggestionPattern": "SELECT ?value ?label WHERE { ?person rdf:type crm:E21_Person. ?person crm:P1_is_identified_by ?value. ?value rdfs:label ?label. FILTER REGEX(STR(?label), \"?token\") } LIMIT 10"
+                "autosuggestionPattern": "SELECT ?value ?label WHERE { ?value rdf:type crm:E21_Person. ?value crm:P1_is_identified_by ?person. ?person rdfs:label ?label. FILTER REGEX(STR(?label), \"?token\") } LIMIT 10"
               },
               {
                 "id": "label",
