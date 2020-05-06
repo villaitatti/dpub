@@ -9,15 +9,15 @@
 </ol>
 
 <div class="page">
-  <div class="page__body dpub-editor-page">
-    <div class="dpub-editor-container">
+  <div class="page__body yashiro-editor-page">
+    <div class="yashiro-editor-container">
 
       <bs-row>
         <bs-col md="3"></bs-col>
         <bs-col md="6">
           <mp-field-visualization
           subject="[[this]]"
-          fields='[[fieldDefinitionsFromQuery "SELECT ?field WHERE { ?field <http://www.metaphacts.com/ontology/fields#domain> <http://dpub.cordh.net/annotation-schema/TextDocument>}"]]'
+          fields='[[fieldDefinitionsFromQuery "SELECT ?field WHERE { ?field <http://www.metaphacts.com/ontology/fields#domain> <https://collection.itatti.harvard.edu/yashiro/annotation-schema/TextDocument>}"]]'
           template="{{> metadata}}"
         >
 
@@ -86,16 +86,16 @@
         <rs-text-annotation-workspace
           document-iri="[[this]]"
           storage="yashiro"
-          annotation-subject-template="http://dpub.cordh.net/annotation/{{UUID}}"
+          annotation-subject-template="https://collection.itatti.harvard.edu/yashiro/annotation/{{UUID}}"
           fallback-template="{{> fallback-template}}"
           annotation-tooltip="{{> annotation-tooltip}}"
         >
           <template id="fallback-template">
  
-            {{#> dpub:AnnotationTemplate}}
+            {{#> yashiro:AnnotationTemplate}}
             Missing type for annotation
             <semantic-link iri="{{ iri.value }}"></semantic-link>
-            {{/ dpub:AnnotationTemplate}}
+            {{/ yashiro:AnnotationTemplate}}
           </template>
 
           <template id="annotation-tooltip">
@@ -141,7 +141,7 @@
             </div>
           </template>
 
-          [[> dpub-annotation:Person ]] 
+          [[> yashiro-annotation:Person ]] 
         </rs-text-annotation-workspace>
       </semantic-context>
         </bs-col>
