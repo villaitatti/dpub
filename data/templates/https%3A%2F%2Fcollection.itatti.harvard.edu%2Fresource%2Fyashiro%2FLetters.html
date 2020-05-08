@@ -10,17 +10,17 @@
     <semantic-search
     
     categories='{
-      "<http://www.w3.org/2001/XMLSchema#date>": [{
-         "kind": "date-range",
-         "datatype": "http://www.w3.org/2001/XMLSchema#date",
-         "queryPattern": "
-           {
-            $subject ?__relation__ ?date .
-            FILTER(?date <= ?__dateEndValue__) .
-            FILTER(?date >= ?__dateBeginValue__) .
-           }"
-        }]
-   }'    
+        "<http://www.w3.org/2001/XMLSchema#date>": [{
+          "kind": "date-range",
+          "datatype": "http://www.w3.org/2001/XMLSchema#date",
+          "queryPattern": "
+            {
+              $subject ?__relation__ ?date .
+              FILTER(?date <= ?__dateEndValue__) .
+              FILTER(?date >= ?__dateBeginValue__) .
+            }"
+          }]
+        }'    
 
       relations = '{
           "<mpp:letter_sender>": [
@@ -165,12 +165,10 @@
                 <semantic-table
                   id="table-result"
                   query='
-                    SELECT DISTINCT ?subject ?sender ?receiver ?date ?place_label ?title WHERE {
+                    SELECT DISTINCT ?subject ?sender ?receiver ?date ?place_label WHERE {
 
                       ?subject crm:P1_is_identified_by ?letter.
                       ?activity crm:P16_used_specific_object ?letter.
-                      ?letter crm:P48_has_preferred_identifier ?identifier.
-                      ?identifier rdfs:label ?title.
 
                       ?sending crm:P9i_forms_part_of ?activity.
                       ?sending crm:P7_took_place_at ?place.
@@ -192,8 +190,9 @@
                       ?receiver_role rdfs:label "Receiver"
                     }'
                     column-configuration='[
-                      {"displayName": "Letter", "cellTemplate": "<semantic-link iri={{subject.value}}>{{title.value}}</semantic-link>"},
-                      {"variableName": "date",      "displayName": "Sent at"},
+                      {"displayName": "Letter", "cellTemplate": "<semantic-link iri={{subject.value}}></semantic-link>"},
+
+                      {"displayName": "Send at", "cellTemplate": "{{dateTimeFormat date.value \"YYYY MMM DD\"}}"},
                       {"variableName": "sender",    "displayName": "From"},
                       {"variableName": "place_label", "displayName": "In"},
                       {"variableName": "receiver",  "displayName": "To"}
@@ -209,12 +208,10 @@
                     id='grid-result'
                     number-of-displayed-rows='9'
                     query='
-                      SELECT DISTINCT ?subject ?sender ?receiver ?date ?place_label ?title WHERE {
+                      SELECT DISTINCT ?subject ?sender ?receiver ?date ?place_label WHERE {
 
                         ?subject crm:P1_is_identified_by ?letter.
                         ?activity crm:P16_used_specific_object ?letter.
-                        ?letter crm:P48_has_preferred_identifier ?identifier.
-                        ?identifier rdfs:label ?title.
 
                         ?sending crm:P9i_forms_part_of ?activity.
                         ?sending crm:P7_took_place_at ?place.
@@ -250,7 +247,7 @@
                               <div data-flex-layout="column top-stretch">
 
                                 <div class="grid-demo">
-                                  <semantic-link iri="{{subject.value}}"><h5>{{title.value}}</h5></semantic-link>
+                                  <h5><semantic-link iri="{{subject.value}}"></semantic-link></h5>
                                 </div>
                                 
                                 <div class="grid-demo">
