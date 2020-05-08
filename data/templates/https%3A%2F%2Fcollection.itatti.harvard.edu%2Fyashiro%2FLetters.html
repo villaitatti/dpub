@@ -191,7 +191,8 @@
                     }'
                     column-configuration='[
                       {"displayName": "Letter", "cellTemplate": "<semantic-link iri={{subject.value}}></semantic-link>"},
-                      {"variableName": "date",      "displayName": "Sent at"},
+
+                      {"displayName": "Send at", "cellTemplate": "{{dateTimeFormat date.value \"YYYY MMM DD\"}}"},
                       {"variableName": "sender",    "displayName": "From"},
                       {"variableName": "place_label", "displayName": "In"},
                       {"variableName": "receiver",  "displayName": "To"}
