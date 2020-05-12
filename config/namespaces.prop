@@ -3,3 +3,4 @@ yashiro-annotation = https://collection.itatti.harvard.edu/resource/yashiro/anno
 oa = http://www.w3.org/ns/oa#
 crm = http://www.cidoc-crm.org/cidoc-crm/
 prov = http://www.w3.org/ns/prov#
+yashiro-document = https://collection.itatti.harvard.edu/resource/yashiro/document/
