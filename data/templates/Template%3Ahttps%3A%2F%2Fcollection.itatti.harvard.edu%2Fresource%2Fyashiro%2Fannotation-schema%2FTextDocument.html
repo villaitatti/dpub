@@ -17,7 +17,7 @@
         <bs-col md="6">
           <mp-field-visualization
           subject="[[this]]"
-          fields='[[fieldDefinitionsFromQuery "SELECT ?field WHERE { ?field <http://www.metaphacts.com/ontology/fields#domain> <https://collection.itatti.harvard.edu/yashiro/annotation-schema/TextDocument>}"]]'
+          fields='[[fieldDefinitionsFromQuery "SELECT ?field WHERE { ?field <http://www.metaphacts.com/ontology/fields#domain> <https://collection.itatti.harvard.edu/resource/yashiro/annotation-schema/TextDocument>}"]]'
           template="{{> metadata}}"
         >
 
@@ -43,7 +43,7 @@
 
           <!-- Date -->
           {{#ifCond this.label.0._value "===" "letter_date"}}
-            {{> row lbl="Date" val=this.values.0.value._value date=this.values.0.label}}
+            {{> date-row lbl="Date" val=this.values.0.value._value date=this.values.0.label}}
           {{/ifCond}}
 
           <!-- People -->
@@ -59,13 +59,25 @@
           {{/ifCond}}
         </template>
 
+
+        <template id="date-row">
+          <div data-flex-layout="row">
+            <bs-col sm="2" md="3">
+              <b>{{ lbl }}:</b>
+            </bs-col>
+            <bs-col sm="2" md="9">
+              {{dateTimeFormat date "MMM DD YYYY"}}
+            </bs-col>
+          </div>
+        </template> 
+
         <template id="row">
           <div data-flex-layout="row">
             <bs-col sm="2" md="3">
               <b>{{ lbl }}:</b>
             </bs-col>
             <bs-col sm="2" md="9">
-              <semantic-link iri="{{ val }}">{{date}}</semantic-link>
+              <semantic-link iri="{{ val }}"></semantic-link>
             </bs-col>
           </div>
         </template> 
@@ -82,68 +94,68 @@
         <bs-col md="9">
           <h3>Letter</h3>
                 <!-- Document body + annotation sidebar -->
-      <semantic-context repository="default">
-        <rs-text-annotation-workspace
-          document-iri="[[this]]"
-          storage="yashiro"
-          annotation-subject-template="https://collection.itatti.harvard.edu/yashiro/annotation/{{UUID}}"
-          fallback-template="{{> fallback-template}}"
-          annotation-tooltip="{{> annotation-tooltip}}"
-        >
-          <template id="fallback-template">
- 
-            {{#> yashiro:AnnotationTemplate}}
-            Missing type for annotation
-            <semantic-link iri="{{ iri.value }}"></semantic-link>
-            {{/ yashiro:AnnotationTemplate}}
-          </template>
+          <semantic-context repository="default">
+            <rs-text-annotation-workspace
+              document-iri="[[this]]"
+              storage="yashiro"
+              annotation-subject-template="https://collection.itatti.harvard.edu/yashiro/annotation/{{UUID}}"
+              fallback-template="{{> fallback-template}}"
+              annotation-tooltip="{{> annotation-tooltip}}"
+            >
+              <template id="fallback-template">
+    
+                {{#> yashiro:AnnotationTemplate}}
+                Missing type for annotation
+                <semantic-link iri="{{ iri.value }}"></semantic-link>
+                {{/ yashiro:AnnotationTemplate}}
+              </template>
 
-          <template id="annotation-tooltip">
-            <div>
-              {{#if allowEdit}}
-              <button
-                name="edit"
-                class="btn btn-xs btn-default"
-                data-annotation="{{ iri.value }}"
-                title="Edit annotation"
-              >
-                <span class="fa fa-pencil" style="pointer-events: none;"></span>
-              </button>
-              {{else}}
-              <button
-                name="edit"
-                class="btn btn-xs btn-default"
-                disabled
-                title="Edit annotation"
-              >
-                <span class="fa fa-pencil" style="pointer-events: none;"></span>
-              </button>
-              {{/if}}
-              {{#if allowDelete}}
-              <button
-                name="delete"
-                class="btn btn-xs btn-default"
-                data-annotation="{{ iri.value }}"
-                title="Delete annotation"
-              >
-                <span class="fa fa-trash" style="pointer-events: none;"></span>
-              </button>
-              {{else}}
-              <button
-                name="delete"
-                class="btn btn-xs btn-default"
-                disabled
-                title="Delete annotation"
-              >
-                <span class="fa fa-trash" style="pointer-events: none;"></span>
-              </button>
-              {{/if}}
-            </div>
-          </template>
+              <template id="annotation-tooltip">
+                <div>
+                  {{#if allowEdit}}
+                  <button
+                    name="edit"
+                    class="btn btn-xs btn-default"
+                    data-annotation="{{ iri.value }}"
+                    title="Edit annotation"
+                  >
+                    <span class="fa fa-pencil" style="pointer-events: none;"></span>
+                  </button>
+                  {{else}}
+                  <button
+                    name="edit"
+                    class="btn btn-xs btn-default"
+                    disabled
+                    title="Edit annotation"
+                  >
+                    <span class="fa fa-pencil" style="pointer-events: none;"></span>
+                  </button>
+                  {{/if}}
+                  {{#if allowDelete}}
+                  <button
+                    name="delete"
+                    class="btn btn-xs btn-default"
+                    data-annotation="{{ iri.value }}"
+                    title="Delete annotation"
+                  >
+                    <span class="fa fa-trash" style="pointer-events: none;"></span>
+                  </button>
+                  {{else}}
+                  <button
+                    name="delete"
+                    class="btn btn-xs btn-default"
+                    disabled
+                    title="Delete annotation"
+                  >
+                    <span class="fa fa-trash" style="pointer-events: none;"></span>
+                  </button>
+                  {{/if}}
+                </div>
+              </template>
 
-          [[> yashiro-annotation:Person ]] 
-        </rs-text-annotation-workspace>
-      </semantic-context>
+              [[> yashiro-annotation:Person ]] 
+            </rs-text-annotation-workspace>
+          </semantic-context>
         </bs-col>
       </bs-row>
 
