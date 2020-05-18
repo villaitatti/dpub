@@ -13,7 +13,7 @@ img.thumbnail{
 }
 
 div[data-flex-self="size-1of3"]{
-    min-width: 300px;
+    min-width: 450px;
 }
 
 div.semantic-facet-holder{
