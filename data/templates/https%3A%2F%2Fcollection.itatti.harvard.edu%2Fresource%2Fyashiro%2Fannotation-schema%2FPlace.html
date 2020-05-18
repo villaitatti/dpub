@@ -1,0 +1,44 @@
+<rs-text-annotation-type label="Place"
+                         rdf-type='https://collection.itatti.harvard.edu/yashiro/annotation-schema/Place'
+                         icon-url='/images/dpub/place.svg'>
+  <template id='annotation'>
+
+    <semantic-query query='
+              SELECT ?value ?label WHERE {
+                BIND({{iri}} as ?iri)
+                ?iri oa:hasBody ?body.
+                ?body crm:P1_is_identified_by ?value.
+                ?value crm:P1_is_identified_by ?id.
+                ?id rdfs:label ?label 
+              }' template='{{> show}}'>
+      <template id='show'>
+
+        {{#> yashiro:AnnotationTemplate}}
+        <div class="yashiro-annotation-content concept">
+            <span>Place:</span>
+            <semantic-link iri="{{bindings.0.value.value}}">{{bindings.0.label.value}}</semantic-link>
+        </div>
+
+        {{/ yashiro:AnnotationTemplate}}
+      </template>
+    </semantic-query>
+  </template>
+  <semantic-form-composite-input
+          for='oaHasBody'
+          new-subject-template='body'
+          fields='[[fieldDefinitions type="http://www.researchspace.org/instances/fields/Type" place="http://www.metaphacts.com/fieldDefinition/Place%20(Wikidata)"]]'>
+
+    <semantic-form-hidden-input for='type' default-value='https://collection.itatti.harvard.edu/yashiro/annotation-schema/Place'></semantic-form-hidden-input>
+
+    
+    <semantic-form-autocomplete-input for='place'></semantic-form-autocomplete-input>
+
+    <!--
+    <semantic-form-hidden-input for='label' append-value='[[singleValueFromSelect "SELECT ?place WHERE { BIND(?__useruri__ as ?place) }" ]]'>
+    </semantic-form-hidden-input>-->
+        
+
+  </semantic-form--input>
+    <semantic-form-errors></semantic-form-errors>
+  </semantic-form-composite-input>
+</rs-text-annotation-type>
