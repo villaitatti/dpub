@@ -135,10 +135,31 @@
     >
       <semantic-search-query-constant 
         domain='<https://www.researchspace.org/resource/TextDocuments>'
-        query="
-          SELECT ?subject WHERE { 
-            ?subject a yashiro-annotation:TextDocument . 
-          }">
+        query='
+        SELECT DISTINCT ?subject ?sender ?receiver ?date ?place_label WHERE {
+
+          ?subject crm:P1_is_identified_by ?letter.
+          ?activity crm:P16_used_specific_object ?letter.
+
+          ?sending crm:P9i_forms_part_of ?activity.
+          ?sending crm:P7_took_place_at ?place.
+          ?place rdfs:label ?place_label.
+
+          ?sending crm:P4_has_time_span ?activity_timespan.
+          ?activity_timespan crm:P81a_end_of_the_begin ?date.
+          
+          ?activity crm:P01_has_domain ?sender_carry.
+          ?sender_carry crm:P02_has_range ?sender_person.
+          ?sender_person rdfs:label ?sender.
+          ?sender_carry crm:P14.1_in_the_role_of ?sender_role.
+          ?sender_role rdfs:label "Sender".
+          
+          ?activity crm:P01_has_domain ?receiver_carry.
+          ?receiver_carry crm:P02_has_range ?receiver_person.
+          ?receiver_person rdfs:label ?receiver.
+          ?receiver_carry crm:P14.1_in_the_role_of ?receiver_role.
+          ?receiver_role rdfs:label "Receiver"
+        }''>
       </semantic-search-query-constant>
       
       <div data-flex-layout="row stretch-stretch">
@@ -160,35 +181,11 @@
             </semantic-search-result>-->
   
             <bs-tabs unmount-on-exit=true id='search-results' animation=false>
-              
+              <!--
               <bs-tab event-key="1" title="table">
                 <semantic-table
                   id="table-result"
-                  query='
-                    SELECT DISTINCT ?subject ?sender ?receiver ?date ?place_label WHERE {
-
-                      ?subject crm:P1_is_identified_by ?letter.
-                      ?activity crm:P16_used_specific_object ?letter.
-
-                      ?sending crm:P9i_forms_part_of ?activity.
-                      ?sending crm:P7_took_place_at ?place.
-                      ?place rdfs:label ?place_label.
-
-                      ?sending crm:P4_has_time_span ?activity_timespan.
-                      ?activity_timespan crm:P81a_end_of_the_begin ?date.
-                      
-                      ?activity crm:P01_has_domain ?sender_carry.
-                      ?sender_carry crm:P02_has_range ?sender_person.
-                      ?sender_person rdfs:label ?sender.
-                      ?sender_carry crm:P14.1_in_the_role_of ?sender_role.
-                      ?sender_role rdfs:label "Sender".
-                      
-                      ?activity crm:P01_has_domain ?receiver_carry.
-                      ?receiver_carry crm:P02_has_range ?receiver_person.
-                      ?receiver_person rdfs:label ?receiver.
-                      ?receiver_carry crm:P14.1_in_the_role_of ?receiver_role.
-                      ?receiver_role rdfs:label "Receiver"
-                    }'
+                  query='SELECT DISTINCT ?subject ?sender ?receiver ?date ?place_label WHERE { }'
                     column-configuration='[
                       {"displayName": "Letter", "cellTemplate": "<semantic-link iri={{subject.value}}></semantic-link>"},
 
@@ -197,11 +194,12 @@
                       {"variableName": "place_label", "displayName": "In"},
                       {"variableName": "receiver",  "displayName": "To"}
                     ]'
+                    options='{"showFilter":true, "resultsPerPage":20}'
                   >
                   
                 </semantic-table>
               </bs-tab>
-
+              -->   
               <bs-tab event-key="2" title="Grid">
                 <semantic-search-result>
                   <semantic-table 
@@ -240,35 +238,51 @@
                           
                           <div class="panel-body">
 
-                            <div data-flex-layout="row stretch-stretch">
-                              <div class="grid-demo" data-flex-layout="column center-center">
-                                <mp-resource-thumbnail iri='{{subject.value}}' no-image-uri='../../assets/images/yashiro.jpg' class="thumbnail"/>
-                              </div>
-                              <div data-flex-layout="column top-stretch">
 
+                              <bs-col md="2">
                                 <div class="grid-demo">
-                                  <h5><semantic-link iri="{{subject.value}}"></semantic-link></h5>
+                                  <mp-resource-thumbnail iri='{{subject.value}}' no-image-uri='../../assets/images/yashiro.jpg' class="thumbnail"/>
                                 </div>
-                                
-                                <div class="grid-demo">
-                                  <b>Sent: </b>{{date.value}}
-                                </div>
+                              </bs-col>
+                              <bs-col md="10">
+                                <div data-flex-layout="row md-column center-stretch">
+                                  <bs-row>
+                                    <bs-col md="12">
+                                      <h4><semantic-link iri="{{subject.value}}"></semantic-link></h4>
+                                    </bs-col>
 
-                                <div class="grid-demo">
-                                  <b>From: </b>{{sender.value}}
-                                </div>
+                                    <div>
+                                      <bs-col md="6">
+                                        <div class="grid-demo">
+                                          <b>Sent at: </b>{{dateTimeFormat date.value "YYYY MMM DD"}}
+                                        </div>
+    
+                                        <div class="grid-demo">
+                                          <b>In: </b>{{place_label.value}}
+                                        </div> 
+                                      </bs-col>
+                                      
+                                      <bs-col md="6">
+                                        <div class="grid-demo">
+                                          <b>From: </b>{{sender.value}}
+                                        </div>
+        
+                                        <div class="grid-demo">
+                                          <b>To: </b>{{receiver.value}}
+                                        </div>
+                                      </bs-col>
+                                    </div>
 
-                                <div class="grid-demo">
-                                  <b>To: </b>{{receiver.value}}
-                                </div>
 
-                                <div class="grid-demo">
-                                  <b>In: </b>{{place_label.value}}
-                                </div> 
-                              </div>
+    
+                                  </bs-row>
+                                  
+                                </div>
+                              </bs-col>
                               
-                            </div>
-          
+
+
+                            
                           </div>
 
                         </div>

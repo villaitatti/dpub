@@ -1,9 +1,22 @@
 .rs-grid-element{
-    width: 300px!important;
+    width: 100%!important;
     margin-top: 10px;
 }
 
 img.thumbnail{
     width: 100px!important;
     margin-bottom: 0px !important;
+}
+
+.grid-demo{
+    font-size: 16px;
+}
+
+div[data-flex-self="size-1of3"]{
+    min-width: 300px;
+}
+
+div.semantic-facet-holder{
+    position: fixed;
+    background-color: white;
 }
