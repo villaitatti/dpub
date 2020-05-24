@@ -7,9 +7,8 @@
               SELECT ?value ?label WHERE {
                 BIND({{iri}} as ?iri)
                 ?iri oa:hasBody ?body.
-                ?body crm:P1_is_identified_by ?value.
-                ?value crm:P1_is_identified_by ?id.
-                ?id rdfs:label ?label 
+                ?body rdf:value ?value.
+                ?value rdfs:label ?label
               }' template='{{> show}}'>
       <template id='show'>
 
@@ -29,14 +28,8 @@
           fields='[[fieldDefinitions type="http://www.researchspace.org/instances/fields/Type" place="http://www.metaphacts.com/fieldDefinition/Place%20(Wikidata)"]]'>
 
     <semantic-form-hidden-input for='type' default-value='https://collection.itatti.harvard.edu/yashiro/annotation-schema/Place'></semantic-form-hidden-input>
-
     
     <semantic-form-autocomplete-input for='place'></semantic-form-autocomplete-input>
-
-    <!--
-    <semantic-form-hidden-input for='label' append-value='[[singleValueFromSelect "SELECT ?place WHERE { BIND(?__useruri__ as ?place) }" ]]'>
-    </semantic-form-hidden-input>-->
-        
 
   </semantic-form--input>
     <semantic-form-errors></semantic-form-errors>
