@@ -1,13 +1,14 @@
-.footer { display: none; }
 .page__body.yashiro-editor-page {
   margin-left: 50px;
   padding-bottom: 0;
   width: auto;
 }
 
+/*
 .yashiro-editor-container {
   height: calc(100vh - 114px);
 }
+ */
 
 .yashiro-editor-container .AnnotationSidebar--tabIcon {
     opacity: 0.5;

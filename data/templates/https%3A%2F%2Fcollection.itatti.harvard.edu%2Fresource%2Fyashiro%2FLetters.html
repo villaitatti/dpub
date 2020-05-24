@@ -1,11 +1,18 @@
 <link rel="stylesheet" href="../../assets/styles/template.css">
+[[> "https://collection.itatti.harvard.edu/resource/yashiro/header"]]
+<!-- main container open -->
+<div id="main-container" class="container-fluid" style="height:500px;">
+  <!-- /main container open -->
 
-<ol class="page-breadcrumb">
-  <li class="active">Letters</li>
-</ol>
+  <link href="/assets/styles/annotation.css" rel="stylesheet" />
 
-<div class="page">
-  <div class="page__body">
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2">
+        <header>
+          <h1>Letters</h1>
+        </header>
+      </div>
+    </div>
 
     <semantic-search
     
@@ -92,17 +99,17 @@
           {
             "iri":"<crm:E21_Person>",
             "label":"Person",
-            "thumbnail": "../../../assets/images/user.svg"
+            "thumbnail": "../../../assets/images/users.svg"
           },
           {
             "iri": "<http://www.w3.org/2001/XMLSchema#date>",
             "label": "Date",
-            "thumbnail": "../../../assets/images/calendar.svg"
+            "thumbnail": "../../../assets/images/calendar-full.svg"
           },
           {
             "iri": "<crm:E53_Place>",
             "label": "Place",
-            "thumbnail": "../../../assets/images/map-marker.svg"
+            "thumbnail": "../../../assets/images/marker.svg"
           }
         ],
         "relations": [
@@ -159,53 +166,23 @@
           ?receiver_person rdfs:label ?receiver.
           ?receiver_carry crm:P14.1_in_the_role_of ?receiver_role.
           ?receiver_role rdfs:label "Receiver"
-        }''>
+        }'>
       </semantic-search-query-constant>
-      
-      <div data-flex-layout="row stretch-stretch">
-        <div data-flex-self="size-1of3" style="flex: 0 0 20px;">
+
+      <div style="height:500px;" class="row">
+        <div class="col-sm-2" style="margin-top: 8px;">
+          <h4>Filters</h4>
           <semantic-search-facet open-by-default="true"></semantic-search-facet>
         </div>
-        
-        <semantic-search-result-holder>
-          <div data-flex-self="md-full">
-
-            <!--
-            <semantic-search-result>
-              <mp-sparql-result-counts id='query-count'
-                                       query="SELECT DISTINCT * {}"
-                                       template='{{#if hasLimit}} <bs-alert bs-style="warning">
-                                                 Showing {{numberOfResults}} of {{totalNumberOfResults}} matches. <strong>Please, refine your search.</strong> </bs-alert>
-                                                 {{else}}<span> found {{numberOfResults}} matches </span>{{/if}}'>
-              </mp-sparql-result-counts>
-            </semantic-search-result>-->
-  
+        <div class="col-sm-7">
+          <semantic-search-result-holder>
             <bs-tabs unmount-on-exit=true id='search-results' animation=false>
-              <!--
-              <bs-tab event-key="1" title="table">
-                <semantic-table
-                  id="table-result"
-                  query='SELECT DISTINCT ?subject ?sender ?receiver ?date ?place_label WHERE { }'
-                    column-configuration='[
-                      {"displayName": "Letter", "cellTemplate": "<semantic-link iri={{subject.value}}></semantic-link>"},
-
-                      {"displayName": "Send at", "cellTemplate": "{{date.value}}"},
-                      {"variableName": "sender",    "displayName": "From"},
-                      {"variableName": "place_label", "displayName": "In"},
-                      {"variableName": "receiver",  "displayName": "To"}
-                    ]'
-                    options='{"showFilter":true, "resultsPerPage":20}'
-                  >
-                  
-                </semantic-table>
-              </bs-tab>
-              -->   
               <bs-tab event-key="2" title="Grid">
                 <semantic-search-result>
-                  <semantic-table 
-                    id='grid-result'
-                    number-of-displayed-rows='9'
-                    query='
+                  <semantic-table
+                          id='grid-result'
+                          number-of-displayed-rows='9'
+                          query='
                       SELECT DISTINCT ?subject ?sender ?receiver ?date ?place_label WHERE {
 
                         ?subject crm:P1_is_identified_by ?letter.
@@ -217,75 +194,75 @@
 
                         ?sending crm:P4_has_time_span ?activity_timespan.
       					        ?activity_timespan crm:P81a_end_of_the_begin ?date.
-                        
+
                         ?activity crm:P01_has_domain ?sender_carry.
                         ?sender_carry crm:P02_has_range ?sender_person.
                         ?sender_person rdfs:label ?sender.
                         ?sender_carry crm:P14.1_in_the_role_of ?sender_role.
                         ?sender_role rdfs:label "Sender".
-                        
+
                         ?activity crm:P01_has_domain ?receiver_carry.
                         ?receiver_carry crm:P02_has_range ?receiver_person.
                         ?receiver_person rdfs:label ?receiver.
                         ?receiver_carry crm:P14.1_in_the_role_of ?receiver_role.
                         ?receiver_role rdfs:label "Receiver"
                       }'
-                    tuple-template='{{>tupleTemplate}}'>
+                          tuple-template='{{>tupleTemplate}}'>
 
                     <template id='tupleTemplate'>
-                        
-                        <div class="rs-grid-element panel panel-default">
-                          
-                          <div class="panel-body">
+
+                      <div class="rs-grid-element panel panel-default">
+
+                        <div class="panel-body">
 
 
-                              <bs-col md="2">
-                                <div class="grid-demo">
-                                  <mp-resource-thumbnail iri='{{subject.value}}' no-image-uri='../../assets/images/yashiro.jpg' class="thumbnail"/>
-                                </div>
-                              </bs-col>
-                              <bs-col md="10">
-                                <div data-flex-layout="row md-column center-stretch">
-                                  <bs-row>
-                                    <bs-col md="12">
-                                      <h4><semantic-link iri="{{subject.value}}"></semantic-link></h4>
-                                    </bs-col>
+                          <bs-col md="2">
+                            <div class="grid-demo">
+                              <mp-resource-thumbnail iri='{{subject.value}}' no-image-uri='../../assets/images/yashiro.jpg' class="thumbnail"/>
+                            </div>
+                          </bs-col>
+                          <bs-col md="10">
+                            <div data-flex-layout="row md-column center-stretch">
+                              <bs-row>
+                                <bs-col md="12">
+                                  <h4><semantic-link iri="{{subject.value}}"></semantic-link></h4>
+                                </bs-col>
 
-                                    <div>
-                                      <bs-col md="6">
-                                        <div class="grid-demo">
-                                          <b>Sent at: </b>{{dateTimeFormat date.value "YYYY MMM DD"}}
-                                        </div>
-    
-                                        <div class="grid-demo">
-                                          <b>In: </b>{{place_label.value}}
-                                        </div> 
-                                      </bs-col>
-                                      
-                                      <bs-col md="6">
-                                        <div class="grid-demo">
-                                          <b>From: </b>{{sender.value}}
-                                        </div>
-        
-                                        <div class="grid-demo">
-                                          <b>To: </b>{{receiver.value}}
-                                        </div>
-                                      </bs-col>
+                                <div>
+                                  <bs-col md="6">
+                                    <div class="grid-demo">
+                                      <b>Sent at: </b>{{dateTimeFormat date.value "YYYY MMM DD"}}
                                     </div>
 
+                                    <div class="grid-demo">
+                                      <b>In: </b>{{place_label.value}}
+                                    </div>
+                                  </bs-col>
 
-    
-                                  </bs-row>
-                                  
+                                  <bs-col md="6">
+                                    <div class="grid-demo">
+                                      <b>From: </b>{{sender.value}}
+                                    </div>
+
+                                    <div class="grid-demo">
+                                      <b>To: </b>{{receiver.value}}
+                                    </div>
+                                  </bs-col>
                                 </div>
-                              </bs-col>
-                              
 
 
-                            
-                          </div>
+
+                              </bs-row>
+
+                            </div>
+                          </bs-col>
+
+
+
 
                         </div>
+
+                      </div>
 
                     </template>
 
@@ -293,12 +270,72 @@
                 </semantic-search-result>
               </bs-tab>
             </bs-tabs>
-             
-          </div>
-        </semantic-search-result-holder>
-
+          </semantic-search-result-holder>
+        </div>
       </div>
     </semantic-search>
 
-  </div>
+<!-- main container end -->
 </div>
+<!-- /main container end -->
+[[> "https://collection.itatti.harvard.edu/resource/yashiro/footer"]]
+
+<style>
+  .show-facet-button {
+    display: none;
+  }
+  .nav-tabs {
+    display:none;
+  }
+  .facet, .semantic-facet-holder {
+    width:100% !important;
+    position: relative !important;
+    border: none !important;
+    padding: 0 !Important;
+  }
+
+  .facet__category-selector-holder li {
+    border: none !important;
+    margin: 5px !important;
+  }
+
+  .facet__relation__content__category-image {
+    width: 20px;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+
+  .facet__category-selector-holder .category-selector .category-item-holder {
+    min-width: 30px;
+  }
+
+  .FacetSlider--range input.form-control {
+    width: 60px !important;
+    min-width: 0 !important;
+    padding: 4px !important;
+  }
+  .facet__category-selector-holder {
+    display: none !important;
+  }
+
+  .facet__relation__header {
+    border: 1px solid rgb(221, 221, 221);
+    margin-top: 5px;
+  }
+
+  .facet__relation__header:hover, .facet__relation__header:focus {
+    text-decoration: none;
+    color: #000000;
+    background-color: rgba(162, 51, 56, 0.06);
+  }
+
+  header h1 {
+    font-family: Georgia, Serif;
+  }
+
+  .rc-slider.FacetSlider--slider {
+    width: 80%;
+    margin-left: 10%;
+  }
+</style>
