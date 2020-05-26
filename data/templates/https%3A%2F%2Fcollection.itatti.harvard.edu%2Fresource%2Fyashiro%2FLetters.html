@@ -183,30 +183,35 @@
                           id='grid-result'
                           number-of-displayed-rows='9'
                           query='
-                      SELECT DISTINCT ?subject ?sender ?receiver ?date ?place_label WHERE {
-
-                        ?subject crm:P1_is_identified_by ?letter.
-                        ?activity crm:P16_used_specific_object ?letter.
-
-                        ?sending crm:P9i_forms_part_of ?activity.
-                        ?sending crm:P7_took_place_at ?place.
-                        ?place rdfs:label ?place_label.
-
-                        ?sending crm:P4_has_time_span ?activity_timespan.
-      					        ?activity_timespan crm:P81a_end_of_the_begin ?date.
-
-                        ?activity crm:P01_has_domain ?sender_carry.
-                        ?sender_carry crm:P02_has_range ?sender_person.
-                        ?sender_person rdfs:label ?sender.
-                        ?sender_carry crm:P14.1_in_the_role_of ?sender_role.
-                        ?sender_role rdfs:label "Sender".
-
-                        ?activity crm:P01_has_domain ?receiver_carry.
-                        ?receiver_carry crm:P02_has_range ?receiver_person.
-                        ?receiver_person rdfs:label ?receiver.
-                        ?receiver_carry crm:P14.1_in_the_role_of ?receiver_role.
-                        ?receiver_role rdfs:label "Receiver"
-                      }'
+                          SELECT DISTINCT ?subject ?title_label ?sender ?receiver ?date ?place_label WHERE {
+                          
+                                                  ?subject crm:P1_is_identified_by ?letter.
+                                                  ?activity crm:P16_used_specific_object ?letter.
+                                
+                                          ?letter crm:P48_has_preferred_identifier ?title.
+                                        ?title rdfs:label ?title_label.
+                                          
+                          
+                                                  ?sending crm:P9i_forms_part_of ?activity.
+                                                  ?sending crm:P7_took_place_at ?place.
+                                                  ?place rdfs:label ?place_label.
+                          
+                                                  ?sending crm:P4_has_time_span ?activity_timespan.
+                                                  ?activity_timespan crm:P81a_end_of_the_begin ?date.
+                          
+                                                  ?activity crm:P01_has_domain ?sender_carry.
+                                                  ?sender_carry crm:P02_has_range ?sender_person.
+                                                  ?sender_person rdfs:label ?sender.
+                                                  ?sender_carry crm:P14.1_in_the_role_of ?sender_role.
+                                                  ?sender_role rdfs:label "Sender".
+                          
+                                                  ?activity crm:P01_has_domain ?receiver_carry.
+                                                  ?receiver_carry crm:P02_has_range ?receiver_person.
+                                                  ?receiver_person rdfs:label ?receiver.
+                                                  ?receiver_carry crm:P14.1_in_the_role_of ?receiver_role.
+                                                  ?receiver_role rdfs:label "Receiver"
+                                                }
+                                ORDER BY ?date '
                           tuple-template='{{>tupleTemplate}}'>
 
                     <template id='tupleTemplate'>
@@ -225,13 +230,13 @@
                             <div data-flex-layout="row md-column center-stretch">
                               <bs-row>
                                 <bs-col md="12">
-                                  <h4><semantic-link iri="{{subject.value}}"></semantic-link></h4>
+                                  <h4><semantic-link iri="{{subject.value}}">{{title_label.value}}</semantic-link></h4>
                                 </bs-col>
 
                                 <div>
                                   <bs-col md="6">
                                     <div class="grid-demo">
-                                      <b>Sent at: </b>{{dateTimeFormat date.value "YYYY MMM DD"}}
+                                      <b>Sent at: </b>{{dateTimeFormat date.value "DD MMM YYYY"}}
                                     </div>
 
                                     <div class="grid-demo">
