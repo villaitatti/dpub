@@ -1,6 +1,6 @@
-yashiro = https://collection.itatti.harvard.edu/resource/yashiro/
-yashiro-annotation = https://collection.itatti.harvard.edu/resource/yashiro/annotation-schema/
+yashiro = http://yashiro.itatti.harvard.edu/resource/
+yashiro-document = http://yashiro.itatti.harvard.edu/resource/document/
+yashiro-annotation = http://yashiro.itatti.harvard.edu/resource/annotation-schema/
 oa = http://www.w3.org/ns/oa#
 crm = http://www.cidoc-crm.org/cidoc-crm/
 prov = http://www.w3.org/ns/prov#
-yashiro-document = https://collection.itatti.harvard.edu/resource/yashiro/document/
