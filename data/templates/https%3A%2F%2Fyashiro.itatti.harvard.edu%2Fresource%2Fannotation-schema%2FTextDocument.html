@@ -26,7 +26,7 @@
                 <div id="metadataContainer">
                   <mp-field-visualization
                           subject="[[this]]"
-                          fields='[[fieldDefinitionsFromQuery "SELECT ?field WHERE { ?field <http://www.researchspace.org/resource/system/fields#domain> <https://yashiro.itatti.harvard.edu/resource/annotation-schema/TextDocument>}"]]'
+                          fields='[[fieldDefinitionsFromQuery "SELECT ?field WHERE { ?field <http://www.researchspace.org/resource/system/fields#domain> <https://collection.itatti.harvard.edu/resource/yashiro/annotation-schema/TextDocument>}"]]'
                           template="{{> metadata}}"
                   >
 
@@ -126,7 +126,7 @@
               <rs-text-annotation-workspace
                       document-iri="[[this]]"
                       storage="yashiro"
-                      annotation-subject-template="https://yashiro.itatti.harvard.edu/annotation/{{UUID}}"
+                      annotation-subject-template="https://collection.itatti.harvard.edu/yashiro/annotation/{{UUID}}"
                       fallback-template="{{> fallback-template}}"
                       annotation-tooltip="{{> annotation-tooltip}}"
               >
@@ -181,7 +181,7 @@
                   </div>
                 </template>
 
-                [[> annotation-schema/Person ]] [[> annotation-schema/Place ]] [[> annotation-schema/Entity ]]
+                [[> yashiro-annotation:Person ]] [[> yashiro-annotation:Place ]] [[> yashiro-annotation:Entity ]]
               </rs-text-annotation-workspace>
             </semantic-context>
           </div>

@@ -1,5 +1,5 @@
 <rs-text-annotation-type label="Person"
-                         rdf-type='https://collection.itatti.harvard.edu/yashiro/annotation-schema/Entity'
+                         rdf-type='https://yashiro.itatti.harvard.edu/annotation-schema/Entity'
                          icon-url='/images/dpub/annotation.svg'>
   <template id='annotation'>
 
@@ -11,13 +11,13 @@
                 ?value rdfs:label ?label 
               }' template='{{> show}}'>
       <template id='show'>
-        {{#> yashiro:AnnotationTemplate}}
+        {{#> Default:AnnotationTemplate}}
         <div class="yashiro-annotation-content concept">
             <span>Entity:</span>
             <semantic-link iri="{{bindings.0.value.value}}">{{bindings.0.label.value}}</semantic-link>
         </div>
 
-        {{/ yashiro:AnnotationTemplate}}
+        {{/ Default:AnnotationTemplate}}
       </template>
     </semantic-query>
   </template>
@@ -57,7 +57,7 @@
               }
             ]'>
 
-    <semantic-form-hidden-input for='type' default-value='https://collection.itatti.harvard.edu/yashiro/annotation-schema/Entity'></semantic-form-hidden-input>
+    <semantic-form-hidden-input for='type' default-value='https://yashiro.itatti.harvard.edu/annotation-schema/Entity'></semantic-form-hidden-input>
 
     
     <semantic-form-autocomplete-input for='uri'></semantic-form-autocomplete-input>
