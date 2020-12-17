@@ -8,8 +8,7 @@
                 BIND({{iri}} as ?iri)
                 ?iri oa:hasBody ?body.
                 ?body crm:P1_is_identified_by ?value.
-                ?value crm:P1_is_identified_by ?id.
-                ?id rdfs:label ?label 
+                ?value rdfs:label ?label 
               }' template='{{> show}}'>
       <template id='show'>
         {{#> yashiro:AnnotationTemplate}}
