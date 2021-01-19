@@ -26,7 +26,7 @@
                 <div id="metadataContainer">
                   <mp-field-visualization
                           subject="[[this]]"
-                          fields='[[fieldDefinitionsFromQuery "SELECT ?field WHERE { ?field <http://www.researchspace.org/resource/system/fields#domain> <https://yashiro.itatti.harvard.edu/resource/annotation-schema/TextDocument>}"]]'
+                          fields='[[fieldDefinitionsFromQuery "SELECT ?field WHERE { ?field <http://www.researchspace.org/resource/system/fields/domain> <https://yashiro.itatti.harvard.edu/resource/annotation-schema/TextDocument>}"]]'
                           template="{{> metadata}}"
                   >
 
@@ -120,7 +120,6 @@
             </mp-splitpane-sidebar-open>
           </div>
           <div  id="letterColumn">
-            <h3 style="margin-top: 0;">Letter</h3>
             <!-- Document body + annotation sidebar -->
             <semantic-context repository="default">
               <rs-text-annotation-workspace
